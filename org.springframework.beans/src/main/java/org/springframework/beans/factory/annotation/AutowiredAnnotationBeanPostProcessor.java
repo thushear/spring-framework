@@ -343,8 +343,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 			}
 			for (Method method : targetClass.getDeclaredMethods()) {
 				Method bridgedMethod = BridgeMethodResolver.findBridgedMethod(method);
-				Annotation annotation = BridgeMethodResolver.isVisibilityBridgeMethodPair(method, bridgedMethod) ?
-						findAutowiredAnnotation(bridgedMethod) : findAutowiredAnnotation(method);
+				Annotation annotation =  null;
+				/*BridgeMethodResolver.isVisibilityBridgeMethodPair(method, bridgedMethod) ?
+						findAutowiredAnnotation(bridgedMethod) : findAutowiredAnnotation(method);*/
 				if (annotation != null && method.equals(ClassUtils.getMostSpecificMethod(method, clazz))) {
 					if (Modifier.isStatic(method.getModifiers())) {
 						if (logger.isWarnEnabled()) {

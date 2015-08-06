@@ -50,6 +50,11 @@ package org.springframework.beans.factory;
  * @see org.springframework.aop.framework.ProxyFactoryBean
  * @see org.springframework.jndi.JndiObjectFactoryBean
  */
+
+/**
+ * 工厂类的Bean
+ * @param <T>
+ */
 public interface FactoryBean<T> {
 
 	/**

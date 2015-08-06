@@ -16,9 +16,6 @@
 
 package org.springframework.beans.factory;
 
-import static org.junit.Assert.*;
-import static test.util.TestResourceUtils.qualifiedResource;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,15 +25,20 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import debug.D;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StopWatch;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Guillaume Poirier
@@ -47,8 +49,13 @@ import org.springframework.core.io.Resource;
 public final class ConcurrentBeanFactoryTests {
 
 	private static final Log logger = LogFactory.getLog(ConcurrentBeanFactoryTests.class);
-	private static final Resource CONTEXT = qualifiedResource(ConcurrentBeanFactoryTests.class, "context.xml");
-	
+
+	//private static final Resource CONTEXT = qualifiedResource(ConcurrentBeanFactoryTests.class, "context.xml");
+
+
+	private static final Resource CONTEXT = D.getTestResource(ConcurrentBeanFactoryTests.class);
+
+
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 	private static final Date DATE_1, DATE_2;
 
@@ -70,7 +77,8 @@ public final class ConcurrentBeanFactoryTests {
 
 	@Before
 	public void setUp() throws Exception {
-		XmlBeanFactory factory = new XmlBeanFactory(CONTEXT);
+
+		XmlBeanFactory factory = new XmlBeanFactory(D.getTestFileSystemResource(ConcurrentBeanFactoryTests.class));
 		factory.addPropertyEditorRegistrar(new PropertyEditorRegistrar() {
 			public void registerCustomEditors(PropertyEditorRegistry registry) {
 				registry.registerCustomEditor(Date.class, new CustomDateEditor((DateFormat) DATE_FORMAT.clone(), false));
@@ -86,6 +94,10 @@ public final class ConcurrentBeanFactoryTests {
 		}
 	}
 
+
+
+
+
 	@Test
 	public void testConcurrent() {
 		for (int i = 0; i < 100; i++) {
@@ -93,10 +105,13 @@ public final class ConcurrentBeanFactoryTests {
 			run.setDaemon(true);
 			set.add(run);
 		}
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start("testConcurrent");
 		for (Iterator<TestRun> it = new HashSet<TestRun>(set).iterator(); it.hasNext();) {
 			TestRun run = it.next();
 			run.start();
 		}
+
 		logger.info("Thread creation over, " + set.size() + " still active.");
 		synchronized (set) {
 			while (!set.isEmpty() && ex == null) {
@@ -109,6 +124,8 @@ public final class ConcurrentBeanFactoryTests {
 				logger.info(set.size() + " threads still active.");
 			}
 		}
+		stopWatch.stop();
+		System.out.println("totalMillis :" + stopWatch.getTotalTimeMillis());
 		if (ex != null) {
 			fail(ex.getMessage());
 		}

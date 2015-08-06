@@ -35,7 +35,6 @@ import javax.security.auth.Subject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
 import test.beans.DerivedTestBean;
@@ -81,6 +80,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.StopWatch;
 
+import static org.junit.Assert.*;
+
 /**
  * Tests properties population and autowire behavior.
  *
@@ -124,6 +125,8 @@ public class DefaultListableBeanFactoryTests {
 		assertTrue("singleton was instantiated", KnowsIfInstantiated.wasInstantiated());
 	}
 
+
+
 	@Test
 	public void testFactoryBeanDidNotCreatePrototype() {
 		DefaultListableBeanFactory lbf = new DefaultListableBeanFactory();
@@ -143,6 +146,8 @@ public class DefaultListableBeanFactoryTests {
 		assertEquals(TestBean.class, lbf.getType("x1"));
 		assertTrue(lbf.containsBean("x1"));
 		assertTrue(lbf.containsBean("&x1"));
+		FactoryBean obj = (FactoryBean) lbf.getBean("&x1");
+		System.out.println(obj);
 		assertTrue("prototype was instantiated", DummyFactory.wasPrototypeCreated());
 	}
 
@@ -1026,6 +1031,10 @@ public class DefaultListableBeanFactoryTests {
 		assertTrue(lbf.getBean("testBean") instanceof NestedTestBean);
 	}
 
+	/**
+	 *
+	 * @throws MalformedURLException
+	 */
 	@Test
 	public void testArrayPropertyWithAutowiring() throws MalformedURLException {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();

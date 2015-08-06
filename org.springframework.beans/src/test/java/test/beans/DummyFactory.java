@@ -176,4 +176,16 @@ public class DummyFactory
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "DummyFactory{" +
+				"singleton=" + singleton +
+				", beanName='" + beanName + '\'' +
+				", beanFactory=" + beanFactory +
+				", postProcessed=" + postProcessed +
+				", initialized=" + initialized +
+				", testBean=" + testBean +
+				", otherTestBean=" + otherTestBean +
+				'}';
+	}
 }
