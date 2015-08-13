@@ -161,7 +161,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 
 	/**
 	 * Set the 'autowired' annotation types, to be used on constructors, fields,
-	 * setter methods and arbitrary config methods.
+	 * setter methods and arbitrary config methodss.
 	 * <p>The default autowired annotation type is the Spring-provided
 	 * {@link Autowired} annotation, as well as {@link Value}.
 	 * <p>This setter property exists so that developers can provide their own
@@ -344,8 +344,8 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 			for (Method method : targetClass.getDeclaredMethods()) {
 				Method bridgedMethod = BridgeMethodResolver.findBridgedMethod(method);
 				Annotation annotation =  null;
-				/*BridgeMethodResolver.isVisibilityBridgeMethodPair(method, bridgedMethod) ?
-						findAutowiredAnnotation(bridgedMethod) : findAutowiredAnnotation(method);*/
+                annotation = BridgeMethodResolver.isVisibilityBridgeMethodPair(method, bridgedMethod) ? findAutowiredAnnotation(bridgedMethod) :  findAutowiredAnnotation(method);
+
 				if (annotation != null && method.equals(ClassUtils.getMostSpecificMethod(method, clazz))) {
 					if (Modifier.isStatic(method.getModifiers())) {
 						if (logger.isWarnEnabled()) {

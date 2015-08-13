@@ -21,12 +21,12 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
-        <version>3.0.5.RELEASE</version>
+        <version>3.0.7.RELEASE</version>
       </dependency>
      <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
-        <version>3.0.5.RELEASE</version>
+        <version>3.0.7.RELEASE</version>
         <classifier>sources</classifier>
       </dependency>
 
@@ -110,13 +110,13 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
+      <!--  <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
             <junitArtifactName>junit:junit</junitArtifactName>
           </configuration>
-        </plugin>
+        </plugin>-->
       </plugins>
     </pluginManagement>
   </build>

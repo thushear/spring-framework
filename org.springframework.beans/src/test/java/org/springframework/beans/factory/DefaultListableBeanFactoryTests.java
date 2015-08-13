@@ -1712,8 +1712,9 @@ public class DefaultListableBeanFactoryTests {
 			lbf.getBean("test");
 		}
 		sw.stop();
+        factoryLog.error("Prototype creation took too long:" + sw.getTotalTimeMillis() + " ms");
 		// System.out.println(sw.getTotalTimeMillis());
-		assertTrue("Prototype creation took too long: " + sw.getTotalTimeMillis(), sw.getTotalTimeMillis() < 3000);
+        assertTrue("Prototype creation took too long: " + sw.getTotalTimeMillis(), sw.getTotalTimeMillis() < 3000);
 	}
 
 	@Test
@@ -1734,6 +1735,7 @@ public class DefaultListableBeanFactoryTests {
 			lbf.getBean("test");
 		}
 		sw.stop();
+        factoryLog.error("Prototype creation took too long:" + sw.getTotalTimeMillis() + " ms");
 		// System.out.println(sw.getTotalTimeMillis());
 		assertTrue("Prototype creation took too long: " + sw.getTotalTimeMillis(), sw.getTotalTimeMillis() < 3000);
 	}
